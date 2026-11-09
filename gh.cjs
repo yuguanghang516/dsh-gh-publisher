@@ -103,7 +103,10 @@ const cmd = args[0];
     run(`git remote remove origin || true`);
     run(`git remote add origin ${url}`);
     run(`git push -q -u origin ${branch} --force`);
+    // 立刻把令牌从 .git/config 里抹掉，避免明文残留
+    run(`git remote set-url origin https://github.com/${slug}.git`);
     console.log(`✓ 已推送 ${dir} → https://github.com/${slug}/tree/${branch}`);
+    console.log(`  已清理 remote URL 中的令牌`);
     return;
   }
 
