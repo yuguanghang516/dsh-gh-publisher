@@ -11,20 +11,20 @@ def data_url(path):
     mime={'.svg':'image/svg+xml','.png':'image/png','.cbz':'application/octet-stream'}[path.suffix]
     return 'data:'+mime+';base64,'+base64.b64encode(path.read_bytes()).decode('ascii')
 
-catalog=json.loads((WEB/'catalog.json').read_text())
+catalog=json.loads((WEB/'catalog.json').read_text(encoding='utf-8'))
 for b in catalog['books']:
     b['cover']=data_url(WEB/b['cover'].lstrip('/'))
     for c in b['chapters']:
         c['pages']=[data_url(WEB/p.lstrip('/')) for p in c['pages']]
         c['download']=data_url(WEB/c['download'].lstrip('/'))
 
-storage=(WEB/'storage.js').read_text()
+storage=(WEB/'storage.js').read_text(encoding='utf-8')
 storage=re.sub(r'^export ', '', storage,flags=re.M)
 storage=storage.replace("  const db = await openStore();\n  return new Promise((resolve, reject) => {\n    let tx;\n    let request;", "  if (FILE_MEMORY_MODE) return fileMemoryOperation(store,action);\n  const db = await openStore();\n  return new Promise((resolve, reject) => {\n    let tx;\n    let request;",1)
 storage=storage.replace("async function clearAll() {\n  const db", "async function clearAll() {\n  if(FILE_MEMORY_MODE){for(const table of fileTables.values())table.clear();return;}\n  const db",1)
 storage=storage.replace('crypto.randomUUID()', 'fileUUID()')
 
-app=(WEB/'app.js').read_text()
+app=(WEB/'app.js').read_text(encoding='utf-8')
 app=re.sub(r'^import .*\n', '', app,count=1)
 def change(old,new):
     global app
@@ -71,8 +71,8 @@ async function fetch(resource){const address=typeof resource==='string'?resource
 '''
 script=prefix+'\nconst FILE_CATALOG='+catalog_json+';\n'+storage+'\n'+app+'\n})();'
 assert '</script' not in script.lower()
-css=re.sub(r"^@import[^\n]*\n",'',(WEB/'style.css').read_text(),count=1)
-html=(WEB/'index.html').read_text()
+css=re.sub(r"^@import[^\n]*\n",'',(WEB/'style.css').read_text(encoding='utf-8'),count=1)
+html=(WEB/'index.html').read_text(encoding='utf-8')
 html=re.sub(r'^\s*<link rel="(?:manifest|apple-touch-icon)"[^>]+>\s*$', '',html,flags=re.M)
 html=html.replace('<link rel="stylesheet" href="/style.css">','<style>'+css+'</style>')
 html=html.replace('<script type="module" src="/app.js"></script>','<script>'+script+'</script>')
@@ -80,8 +80,8 @@ html=html.replace('href="/icon.svg"','href="'+data_url(WEB/'icon.svg')+'"')
 html=html.replace('src="/icon.svg"','src="'+data_url(WEB/'icon.svg')+'"')
 html=html.replace('<title>墨格 · 随身漫画书库</title>','<title>墨格 · 随身漫画书库（文件版）</title>')
 html=html.replace('<p>正在整理你的书架…</p>', '<p>正在打开墨格文件版…</p><p style="max-width:280px;text-align:center">若预览无法操作，请使用支持脚本的浏览器，或打开下方网页版。</p><a href="'+HOST+'" style="text-decoration:underline">打开手机网页版</a>')
-(OUT/'moge-pocket.html').write_text(html)
-(OUT/'moge-pocket.runtime.js').write_text(script)
+(OUT/'moge-pocket.html').write_text(html,encoding='utf-8')
+(OUT/'moge-pocket.runtime.js').write_text(script,encoding='utf-8')
 
 instructions='''墨格 · 手机漫画书库（文件版）
 
@@ -112,7 +112,7 @@ python -m http.server 8765 --bind 127.0.0.1 --directory dist
 原创漫画和图像的 CC0 许可位于 dist/assets/LICENSE.txt。
 原网页的存储、解压、DOM 数据流程、Service Worker 模拟测试已通过。文件版另做静态资源及启动流程检查；未做手机实机验证。
 '''
-(OUT/'moge-pocket-使用说明.txt').write_text(instructions)
+(OUT/'moge-pocket-使用说明.txt').write_text(instructions,encoding='utf-8')
 with zipfile.ZipFile(OUT/'moge-pocket.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
     z.write(OUT/'moge-pocket.html','moge-pocket/moge-pocket.html')
     z.writestr('moge-pocket/使用说明.txt',instructions)

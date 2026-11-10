@@ -192,10 +192,10 @@ def page(b,p,lines):
 catalog={'version':1,'source':{'id':'moge-original','name':'墨格原创示例','description':'用于体验阅读、下载与追更流程的原创内容；所有示例均由墨格创作组原创，采用 CC0 许可。'},'books':[]}
 for i,b in enumerate(BOOKS):
     d=DIST/'assets'/b['id']; d.mkdir(parents=True,exist_ok=True)
-    (d/'cover.svg').write_text(cover(b,i))
+    (d/'cover.svg').write_text(cover(b,i),encoding='utf-8')
     pages=[]
     for p,lines in enumerate(b['lines']):
-        name=f'{p+1:02}.svg'; (d/name).write_text(page(b,p,lines)); pages.append(f'/assets/{b["id"]}/{name}')
+        name=f'{p+1:02}.svg'; (d/name).write_text(page(b,p,lines),encoding='utf-8'); pages.append(f'/assets/{b["id"]}/{name}')
         subprocess.run(['inkscape',str(d/name),'--export-type=png',f'--export-filename={d / (Path(name).stem + ".png")}'],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     info=f'<?xml version="1.0" encoding="UTF-8"?><ComicInfo><Title>{escape(b["title"])}</Title><Series>{escape(b["title"])}</Series><Number>1</Number><Writer>墨格创作组</Writer><Summary>{escape(b["desc"])}</Summary><PageCount>{len(pages)}</PageCount><LanguageISO>zh</LanguageISO><Notes>Original demo comic; CC0 1.0 Universal.</Notes></ComicInfo>'
     with zipfile.ZipFile(d/'01.cbz','w',compression=zipfile.ZIP_DEFLATED) as z:
@@ -204,6 +204,6 @@ for i,b in enumerate(BOOKS):
             z.write(png,png.name)
         z.writestr('ComicInfo.xml',info)
     catalog['books'].append({'id':b['id'],'title':b['title'],'author':'墨格创作组','description':b['desc'],'tags':b['tags'],'accent':b['accent'],'cover':f'/assets/{b["id"]}/cover.svg','license':'CC0-1.0','chapters':[{'id':'01','title':f'第1话 {b["chapter"]}','publishedAt':f'2026-11-{6-i:02}','pages':pages,'download':f'/assets/{b["id"]}/01.cbz'}]})
-(DIST/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n')
+(DIST/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 (DIST/'assets'/'LICENSE.txt').write_text('Moge Original Sample Comics\nAll illustrations, scripts, and comic pages in these original demo works are released under CC0 1.0 Universal.\nYou may copy, download, modify, and redistribute them.\nhttps://creativecommons.org/publicdomain/zero/1.0/\n')
 print(f'Generated {len(BOOKS)} covers, {sum(len(b["lines"]) for b in BOOKS)} pages, and {len(BOOKS)} CBZ archives.')
