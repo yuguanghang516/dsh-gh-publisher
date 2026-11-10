@@ -1,10 +1,10 @@
 # 墨格下载
 
-[下载已生成的 HTML、ZIP 和校验文件](https://github.com/yuguanghang516/dsh-gh-publisher/actions/runs/42830761618/artifacts/13770997188)
+[下载已生成的 HTML、ZIP 和校验文件](https://github.com/yuguanghang516/dsh-gh-publisher/actions/runs/42831942834/artifacts/13771817422)
 
-需要登录 GitHub。此构建产物保留至 2027-02-08。下载得到的外层 ZIP 包含 `moge-pocket.html`、`moge-pocket.zip`、`SHA256SUMS.txt`；构建对应提交 `b0f3176`（阅读器点击区域、页码滑块、缩放与右→左阅读方向）。
+需要登录 GitHub。此构建产物保留至 2027-02-08。下载得到的外层 ZIP 包含 `moge-pocket.html`、`moge-pocket.zip`、`SHA256SUMS.txt`；构建对应提交 `1a54a14`（仓库即书库 + 阅读器点击区域、页码滑块、缩放与右→左阅读方向）。
 
-[查看构建检查结果](https://github.com/yuguanghang516/dsh-gh-publisher/actions/runs/42830761618)
+[查看构建检查结果](https://github.com/yuguanghang516/dsh-gh-publisher/actions/runs/42831942834)
 
 [下载完整源码](https://github.com/yuguanghang516/dsh-gh-publisher/archive/refs/heads/main.zip)
 
