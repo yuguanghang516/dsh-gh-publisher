@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f4ee">
+  <meta name="description" content="墨格，装进口袋的漫画书库。导入漫画、保存离线、记录阅读与检查更新。">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="stylesheet" href="/style.css">
+  <title>墨格 · 随身漫画书库</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至内容</a>
+  <aside class="sidebar" aria-label="主导航">
+    <a class="brand" href="#library" aria-label="墨格首页"><img src="/icon.svg" alt="" width="38" height="38"><span>墨格<small>MOGE / POCKET LIBRARY</small></span></a>
+    <div class="side-caption">我的阅读空间</div>
+    <nav id="desktop-nav"></nav>
+    <div class="sidebar-bottom"><div class="little-book">一本好漫画，<br>就是一个小世界。</div><button class="side-import" data-action="import"><span>＋</span> 导入我的漫画</button><p>让故事，随时在身边。</p></div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="mobile-brand" href="#library"><img src="/icon.svg" alt="" width="29" height="29">墨格</a>
+      <div class="breadcrumb" id="breadcrumb">我的书库 <span>/ 每一格，都值得收藏</span></div>
+      <div class="top-actions"><span class="local-status"><i></i> 设备本地保存</span><button class="icon-button" data-action="search" aria-label="搜索漫画" id="search-toggle"></button><button class="avatar" data-action="profile" aria-label="打开我的设置">M</button></div>
+    </header>
+    <main id="main" tabindex="-1"><div class="initial-loading"><img src="/icon.svg" width="44" height="44" alt=""><p>正在整理你的书架…</p></div></main>
+    <footer class="desktop-footer"><span>墨格 MOGE <i>·</i> 把喜欢的故事，留在身边。</span><span>原创示例内容 / 本地书库</span></footer>
+  </div>
+  <nav class="bottom-nav" id="mobile-nav" aria-label="手机主导航"></nav>
+  <input id="file-input" type="file" accept=".cbz,image/jpeg,image/png,image/webp,image/gif,image/avif" multiple hidden>
+  <dialog id="detail-dialog" class="sheet-dialog" aria-label="漫画详情"></dialog>
+  <dialog id="reader-dialog" class="reader-dialog" aria-label="漫画阅读器"></dialog>
+  <dialog id="help-dialog" class="help-dialog" aria-label="使用帮助"></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

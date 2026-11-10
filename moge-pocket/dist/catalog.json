@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "source": {
+    "id": "moge-original",
+    "name": "墨格原创示例",
+    "description": "用于体验阅读、下载与追更流程的原创内容；所有示例均由墨格创作组原创，采用 CC0 许可。"
+  },
+  "books": [
+    {
+      "id": "moon-post",
+      "title": "月球邮差",
+      "author": "墨格创作组",
+      "description": "月球上最后一个邮差，收到一封寄给地球的信。",
+      "tags": [
+        "治愈",
+        "科幻"
+      ],
+      "accent": "#9eafc3",
+      "cover": "/assets/moon-post/cover.svg",
+      "license": "CC0-1.0",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "第1话 一封没有地址的信",
+          "publishedAt": "2026-11-06",
+          "pages": [
+            "/assets/moon-post/01.svg",
+            "/assets/moon-post/02.svg",
+            "/assets/moon-post/03.svg"
+          ],
+          "download": "/assets/moon-post/01.cbz"
+        }
+      ]
+    },
+    {
+      "id": "forest-radio",
+      "title": "森林电台",
+      "author": "墨格创作组",
+      "description": "每天黄昏，树洞里都会传出一段不一样的声音。",
+      "tags": [
+        "日常",
+        "治愈"
+      ],
+      "accent": "#a6b69c",
+      "cover": "/assets/forest-radio/cover.svg",
+      "license": "CC0-1.0",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "第1话 调频到春天",
+          "publishedAt": "2026-11-05",
+          "pages": [
+            "/assets/forest-radio/01.svg",
+            "/assets/forest-radio/02.svg",
+            "/assets/forest-radio/03.svg"
+          ],
+          "download": "/assets/forest-radio/01.cbz"
+        }
+      ]
+    },
+    {
+      "id": "last-tram",
+      "title": "末班电车",
+      "author": "墨格创作组",
+      "description": "过了午夜，电车会停在地图上找不到的那一站。",
+      "tags": [
+        "都市",
+        "短篇"
+      ],
+      "accent": "#c59b80",
+      "cover": "/assets/last-tram/cover.svg",
+      "license": "CC0-1.0",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "第1话 下一站，明天",
+          "publishedAt": "2026-11-04",
+          "pages": [
+            "/assets/last-tram/01.svg",
+            "/assets/last-tram/02.svg",
+            "/assets/last-tram/03.svg"
+          ],
+          "download": "/assets/last-tram/01.cbz"
+        }
+      ]
+    },
+    {
+      "id": "ocean-note",
+      "title": "海边手记",
+      "author": "墨格创作组",
+      "description": "一本被海风吹开的手账，记下那些慢下来的日子。",
+      "tags": [
+        "旅行",
+        "日常"
+      ],
+      "accent": "#8cabb4",
+      "cover": "/assets/ocean-note/cover.svg",
+      "license": "CC0-1.0",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "第1话 浪花的回信",
+          "publishedAt": "2026-11-03",
+          "pages": [
+            "/assets/ocean-note/01.svg",
+            "/assets/ocean-note/02.svg"
+          ],
+          "download": "/assets/ocean-note/01.cbz"
+        }
+      ]
+    },
+    {
+      "id": "cloud-garden",
+      "title": "云上花园",
+      "author": "墨格创作组",
+      "description": "在云层之上的小小温室里，收集每一种天气。",
+      "tags": [
+        "奇幻",
+        "治愈"
+      ],
+      "accent": "#b8a6b8",
+      "cover": "/assets/cloud-garden/cover.svg",
+      "license": "CC0-1.0",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "第1话 种下一场晴天",
+          "publishedAt": "2026-11-02",
+          "pages": [
+            "/assets/cloud-garden/01.svg",
+            "/assets/cloud-garden/02.svg"
+          ],
+          "download": "/assets/cloud-garden/01.cbz"
+        }
+      ]
+    },
+    {
+      "id": "cat-weekend",
+      "title": "猫的周末",
+      "author": "墨格创作组",
+      "description": "一只猫的周末计划：晒太阳，以及什么也不做。",
+      "tags": [
+        "猫咪",
+        "日常"
+      ],
+      "accent": "#c9aa7b",
+      "cover": "/assets/cat-weekend/cover.svg",
+      "license": "CC0-1.0",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "第1话 今天先不忙",
+          "publishedAt": "2026-11-01",
+          "pages": [
+            "/assets/cat-weekend/01.svg",
+            "/assets/cat-weekend/02.svg"
+          ],
+          "download": "/assets/cat-weekend/01.cbz"
+        }
+      ]
+    }
+  ]
+}
