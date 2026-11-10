@@ -1,107 +1,81 @@
-# dsh-gh-publisher
+# 墨格 · 随身漫画书库
 
-一个**零依赖**的 GitHub 发布命令行工具：只用 Node.js 内置 `fetch`，不装 `gh`、不装任何 npm 包，一条命令完成建仓库、写文件、推目录、发 Release、开 Issue/PR。
+装进口袋的漫画书库：纯 HTML / CSS / JavaScript 的 PWA，无构建依赖，无后端。导入自己的 CBZ 或图片，离线也能读。
 
-为手机上的 Termux / proot 环境写的——那种环境往往装不上 `gh`，但 Node 一定有。
+全部示例漫画为项目原创 CC0 内容；不连接任何外部漫画站点，不抓取、不内置盗版源。
 
-## 为什么用它
+## 功能
 
-| 场景 | `gh` CLI | 本工具 |
-|---|---|---|
-| 安装成本 | 需要下载二进制或 apt 源 | 复制一个 `.cjs` 文件即可 |
-| 依赖 | 一堆 | 0 |
-| 手机 / ARM / proot | 经常装不上 | 直接跑 |
-| 用途 | 全功能 | 只做"发布"这几件事，命令更短 |
+- 手机底部导航、平板与桌面布局，浅色 / 深色外观。
+- 搜索书名、作者和标签，收藏与书库筛选、排序。
+- 图片 / CBZ 导入，文件以 Blob 保存在 IndexedDB，刷新不丢。
+- 全屏阅读：左右点击区域、滑动翻页、页码滑块跳转、放大查看、跨章节阅读。
+- 阅读方向可选「左 → 右」或「右 → 左」（日漫习惯），点击区域、滑动与方向键一起跟随。
+- 章节离线保存与标准 PNG CBZ 导出，带下载队列、重试和删除。
+- 对比已发布原创目录，手动 / 打开时 / 页面可见时定时检查更新，可开启新章节自动离线保存。
+- 书目与阅读进度 JSON 导出与恢复（不含图片，需另存原始文件）。
+- Web App Manifest、Service Worker 应用外壳缓存，可添加到主屏幕。
 
-## 安装
+## 快速开始
 
-```bash
-git clone https://github.com/yuguanghang516/dsh-gh-publisher.git
-cd dsh-gh-publisher
-node gh.cjs whoami   # 需要先设置 GH_TOKEN
+网页版（正式使用建议放到任意 HTTPS 静态服务器，把 `dist/` 作为站点根目录）：
+
+```sh
+python -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-## 准备令牌
+打开 http://127.0.0.1:8765 。
 
-在 https://github.com/settings/tokens/new?scopes=repo&description=dsh 生成一个 **classic PAT**，勾 `repo` 就够。
+单文件版（手机直接打开，无需服务器）：
 
-```bash
-export GH_TOKEN=ghp_xxxxxxxxxxxxxxxx
-node gh.cjs whoami
-# ✓ 已认证: yourname  3 个公开仓库
-#   剩余额度: 4999/5000
+```sh
+python scripts/package-moge.py
 ```
 
-令牌别写进文件、别提交进仓库。用完在设置页删掉。
+生成 `release/moge-pocket.html`（原创示例内嵌，可离线打开）、`release/moge-pocket.zip` 与 `release/SHA256SUMS.txt`。不需要第三方依赖。
 
-## 命令
+## 下载
 
-### 建仓库
+每次推送到 `main` 会自动构建，产物在 Actions 的 `moge-pocket-downloads` 里；也可以手动跑 `Build Moge downloadable files`。详见 [DOWNLOAD.md](DOWNLOAD.md)。
 
-```bash
-node gh.cjs repo create my-project --desc "我的项目"
-node gh.cjs repo create secret-thing --private --no-init
-```
+## 导入格式
 
-### 写单个文件（存在则更新）
-
-自动读取当前文件的 SHA，所以覆盖已有文件不用手动查：
-
-```bash
-node gh.cjs file owner/repo README.md ./README.md --msg "docs: 更新说明"
-```
-
-### 推整个目录
-
-内部走 `git init` + HTTPS token 推送，首次也直接可用：
-
-```bash
-node gh.cjs push owner/repo ./my-dir --branch main --msg "feat: 初始提交"
-```
-
-### 发 Release 并上传附件
-
-```bash
-node gh.cjs release owner/repo v1.0.0 \
-  --name "v1.0.0" \
-  --notes ./CHANGELOG.md \
-  ./dist/app.zip ./dist/app.apk
-```
-
-加 `--draft` 存草稿，`--pre` 标记预发布。
-
-### 开 Issue
-
-```bash
-node gh.cjs issue owner/repo "标题" "正文内容"
-```
-
-### 开 PR
-
-```bash
-node gh.cjs pr owner/repo feature-branch main "标题" "正文"
-```
-
-## 参数速查
-
-| 参数 | 作用 |
+| 格式 | 说明 |
 |---|---|
-| `--desc` | 仓库描述 |
-| `--private` | 建私有仓库 |
-| `--no-init` | 不自动初始化 README |
-| `--msg` | 提交信息 |
-| `--branch` | 推送分支，默认 `main` |
-| `--name` | Release 标题 |
-| `--notes` | 从文件读 Release 说明 |
-| `--body` | 直接给 Release 说明 |
-| `--draft` / `--pre` | 草稿 / 预发布 |
+| `.cbz` / `.zip` | 直接读取；可选 `ComicInfo.xml` 覆盖标题、作者、简介 |
+| 多张图片 | JPG / PNG / WebP / GIF / AVIF，按文件名自然排序组成一本 |
+| `.cbr` / `.rar`、PDF | 暂不支持 |
 
-## 说明
+## 使用限制
 
-- 出错直接退出并打印状态码与响应体前 400 字符，方便排查。
-- `push` 使用 `--force`，因为常见场景是"同步本地目录到远端"，不是协作分支。
-- 未认证的 API 额度只有 60 次/小时；带 token 是 5000 次/小时。
+数据保存在当前设备和浏览器，不跨设备同步；关闭网页后不运行追更任务。首次需联网加载应用，离线阅读需先导入或下载且浏览器允许 IndexedDB / Service Worker。浏览器可能回收非持久存储，请保留原始漫画文件。当前内容源只有内置原创示例，没有外部漫画源与推送服务。
 
-## License
+## 目录结构
 
-MIT
+```
+dist/                部署目录（index.html、app.js、storage.js、sw.js、catalog.json、assets/）
+scripts/             原创素材生成（generate-assets.py）与单文件打包（package-moge.py）
+tests/               存储、Service Worker、DOM 流程测试
+.github/workflows/   自动构建可下载的 HTML / ZIP
+```
+
+## 验证
+
+```sh
+node --check dist/app.js
+node --check dist/storage.js
+node --check dist/sw.js
+node tests/storage-test.mjs
+node tests/sw-test.mjs
+```
+
+DOM / IndexedDB 流程测试（需要 `jsdom` 与 `fake-indexeddb`，装在仓库外）：
+
+```sh
+npm install --prefix /tmp/moge-checks jsdom fake-indexeddb
+MOGE_TEST_MODULE_ROOT=/tmp/moge-checks/node_modules node --experimental-vm-modules tests/app-flow-test.mjs
+```
+
+## 许可
+
+代码 MIT；`dist/assets` 下的原创示例漫画为 CC0 1.0，可自由使用与再分发。

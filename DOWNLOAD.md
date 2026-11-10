@@ -12,7 +12,7 @@
 
 在仓库 Actions 中选择 Build Moge downloadable files，点击 Run workflow；任务完成后下载 moge-pocket-downloads。流程只读源码，不修改仓库和 Release。
 
-电脑安装 Python 3 后，也可在 moge-pocket 目录运行：
+电脑安装 Python 3 后，也可在仓库根目录运行：
 
 ```sh
 python scripts/package-moge.py

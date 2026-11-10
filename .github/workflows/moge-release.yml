@@ -1,44 +1,60 @@
 name: Build Moge downloadable files
+
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
+      - 'dist/**'
+      - 'scripts/**'
+      - 'tests/**'
       - '.github/workflows/moge-release.yml'
+
 permissions:
   contents: read
+
 concurrency:
   group: moge-release
   cancel-in-progress: false
+
 jobs:
   package:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+
       - name: Check application and archive handling
-        working-directory: moge-pocket
         run: |
           node --check dist/app.js
+          node --check dist/storage.js
+          node --check dist/sw.js
           node tests/storage-test.mjs
           node tests/sw-test.mjs
+
+      - name: DOM integration checks
+        run: |
+          npm install --prefix "$RUNNER_TEMP/checks" jsdom fake-indexeddb --no-audit --no-fund
+          MOGE_TEST_MODULE_ROOT="$RUNNER_TEMP/checks/node_modules" node --experimental-vm-modules tests/app-flow-test.mjs
+
       - name: Build standalone HTML and ZIP
-        working-directory: moge-pocket
         run: |
           python3 scripts/package-moge.py
           python3 -c "import zipfile; z=zipfile.ZipFile('release/moge-pocket.zip'); assert z.testzip() is None"
           cd release
           sha256sum moge-pocket.html moge-pocket.zip > SHA256SUMS.txt
+
       - name: Save downloadable files
         uses: actions/upload-artifact@v4
         with:
           name: moge-pocket-downloads
           path: |
-            moge-pocket/release/moge-pocket.html
-            moge-pocket/release/moge-pocket.zip
-            moge-pocket/release/SHA256SUMS.txt
+            release/moge-pocket.html
+            release/moge-pocket.zip
+            release/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 90
