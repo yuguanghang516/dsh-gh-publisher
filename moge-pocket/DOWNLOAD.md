@@ -1,31 +1,35 @@
-# 下载与打包
+# 墨格下载
 
-[下载完整仓库 ZIP](https://github.com/yuguanghang516/dsh-gh-publisher/archive/refs/heads/main.zip)，解压后进入 `moge-pocket` 目录。
+[下载已生成的 HTML、ZIP 和校验文件](https://github.com/yuguanghang516/dsh-gh-publisher/actions/runs/42791077642/artifacts/13750619372)
 
-本目录包含完整源码、6部原创示例和测试。原有仓库根目录的发布工具保持独立。
+需要登录 GitHub。此构建产物保留至 2027-02-08。下载得到的外层 ZIP 包含 `moge-pocket.html`、`moge-pocket.zip`、`SHA256SUMS.txt`。
 
-## 生成单文件 HTML 和应用 ZIP
+[查看构建检查结果](https://github.com/yuguanghang516/dsh-gh-publisher/actions/runs/42791077642)
 
-电脑安装 Python 3 后运行：
+[下载完整源码](https://github.com/yuguanghang516/dsh-gh-publisher/archive/refs/heads/main.zip)
+
+## 以后重新打包
+
+在仓库 Actions 中选择 Build Moge downloadable files，点击 Run workflow；任务完成后下载 moge-pocket-downloads。流程只读源码，不修改仓库和 Release。
+
+电脑安装 Python 3 后，也可在 moge-pocket 目录运行：
 
 ```sh
 python scripts/package-moge.py
 ```
 
-无需第三方依赖。生成 `release/moge-pocket.html`、`release/moge-pocket.zip` 和中文使用说明。HTML包含全部示例资源，使用支持本地脚本的浏览器打开；部分手机文件预览不能运行。存储受限会进入临时模式。
+文件生成在 release/ 下，无第三方依赖。
 
-## 启动网页版
+## 使用与限制
+
+HTML 内嵌原创示例，支持本地图片/CBZ导入、阅读和进度管理。手机文件预览可能不执行脚本，需使用支持本地网页脚本的浏览器。浏览器存储受限时显示临时模式，关闭后不保留数据。请保留漫画原文件；JSON书目备份不包含图片。
+
+当前没有外部漫画来源，文件版目录固定，不联网追更。网页版关闭后也不会持续追更；尚未做手机实机测试。
+
+## 网页源码运行
 
 ```sh
 python -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
-同一设备打开 http://127.0.0.1:8765 。正式部署将 dist 内容放置在 HTTPS 站点根目录。
-
-## 验证与限制
-
-存储/CBZ、DOM/IndexedDB功能流程、Service Worker模拟检查已通过。尚未完成手机实机测试。
-
-内容源为原创示例，未接外部漫画站点。文件版目录固定；网页版只在页面打开时检查目录，关闭后不持续追更。浏览器书库不会跨设备同步，JSON进度备份不含图片，请保留原文件。
-
-较大的预打包 HTML/ZIP 尚未上传到 GitHub，以上脚本可从本仓库重新生成。
+同一设备打开 http://127.0.0.1:8765 。正式部署将 dist 内容放在 HTTPS 网站根目录。
